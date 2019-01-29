@@ -18,7 +18,7 @@ def restaurant_detail(request, restaurant_id):
 def restaurant_create(request):
     form = RestaurantForm()
     if request.method == "POST":
-        form = RestaurantForm(request.POST)
+        form = RestaurantForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('restaurant-list')
@@ -27,11 +27,11 @@ def restaurant_create(request):
     }
     return render(request, 'create.html', context)
 
-def restaurant_update(request, restaurant_id):
+def restaurant_update(request, restaurant_id,):
     restaurant_obj = Restaurant.objects.get(id=restaurant_id)
     form = RestaurantForm(instance=restaurant_obj)
     if request.method == "POST":
-        form = RestaurantForm(request.POST, instance=restaurant_obj)
+        form = RestaurantForm(request.POST, request.FILES, instance=restaurant_obj)
         if form.is_valid():
             form.save()
             return redirect('restaurant-list')
